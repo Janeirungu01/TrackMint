@@ -2,8 +2,7 @@ package com.example.trackmint.controller;
 
 import com.example.trackmint.dto.CategoryRequest;
 import com.example.trackmint.model.Category;
-import com.example.trackmint.services.impl.CategoryServiceImpl;
-import jakarta.validation.Valid;
+import com.example.trackmint.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +12,11 @@ import java.util.List;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-    private  final CategoryServiceImpl categoryService;
+
+    private final CategoryService categoryService;
 
     @PostMapping
-    public Category createCategory(@Valid @RequestBody CategoryRequest request) {
+    public Category createCategory(@RequestBody CategoryRequest request) {
         Long userId = 1L; // replace later with authenticated user
         return categoryService.createCategory(request, userId);
     }

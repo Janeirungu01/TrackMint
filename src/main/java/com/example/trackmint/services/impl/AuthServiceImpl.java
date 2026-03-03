@@ -5,7 +5,6 @@ import com.example.trackmint.dto.RegisterRequest;
 import com.example.trackmint.model.User;
 import com.example.trackmint.repository.UserRepository;
 import com.example.trackmint.services.AuthService;
-import com.example.trackmint.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
