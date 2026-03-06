@@ -29,10 +29,12 @@ public class Transaction {
 
     private LocalDate date;
 
-    private Long UserId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name= "category_id")
+    @JoinColumn(name= "category_id", nullable = false)
     private Category category;
 
 }
