@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtFilter; // ✅ inject filter
+    private final JwtAuthenticationFilter jwtFilter; // inject filter
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,7 +35,7 @@ public class SecurityConfig {
                 // disable HTTP basic auth
                 .httpBasic(basic -> basic.disable())
 
-                // ✅ VERY IMPORTANT — make app stateless
+                // VERY IMPORTANT — make app stateless
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -43,11 +43,16 @@ public class SecurityConfig {
                 // endpoint authorization
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
 
-                // ✅ register JWT filter BEFORE Spring auth filter
+                // register JWT filter BEFORE Spring auth filter
                 .addFilterBefore(jwtFilter,
                         UsernamePasswordAuthenticationFilter.class);
 

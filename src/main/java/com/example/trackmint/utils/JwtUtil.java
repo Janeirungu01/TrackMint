@@ -1,16 +1,3 @@
-//package com.example.trackmint.utils;
-//
-//import io.jsonwebtoken.Jwts;
-//import org.springframework.stereotype.Component;
-//
-//@Component
-//public class JwtUtil {
-//    public String generateToken(String email) {
-//        return "dummy-token";
-//    }
-//}
-//
-
 package com.example.trackmint.utils;
 
 import io.jsonwebtoken.Claims;
