@@ -1,16 +1,15 @@
 package com.example.trackmint.controller;
 
+import com.example.trackmint.dto.MonthlySummaryResponse;
 import com.example.trackmint.dto.TransactionRequest;
 import com.example.trackmint.dto.TransactionResponse;
-import com.example.trackmint.model.Transaction;
-import com.example.trackmint.model.User;
-import com.example.trackmint.repository.UserRepository;
+import com.example.trackmint.security.CustomUserDetails;
 import com.example.trackmint.services.TransactionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,38 +17,63 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionController {
 
-    private final UserRepository userRepository;
     private final TransactionService transactionService;
 
     @PostMapping
-    public TransactionResponse createTransaction(@RequestBody TransactionRequest request) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("User is not authenticated");
-        }
-
-        String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new RuntimeException("User not found"));
-        return transactionService.createTransaction(request, user.getId());
+    public TransactionResponse createTransaction(
+            @RequestBody TransactionRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return transactionService.createTransaction(request, userDetails.getId());
     }
+
     @GetMapping
-    public List<TransactionResponse> getUserTransactions() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("User is not authenticated");
-        }
-
-        String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Call service method to fetch transactions for this user
-        return transactionService.getTransactionsForUser(user.getId());
+    public List<TransactionResponse> getUserTransactions(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        return transactionService.getTransactionsForUser(userDetails.getId());
     }
+
+    @GetMapping("/{id}")
+    public TransactionResponse getTransactionById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        return transactionService.getTransactionById(id, userDetails.getId());
+    }
+
+    @PutMapping("/{id}")
+    public TransactionResponse updateTransaction(
+            @PathVariable Long id,
+            @RequestBody TransactionRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        return transactionService.updateTransaction(id, userDetails.getId(), request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTransaction(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        transactionService.deleteTransaction(id, userDetails.getId());
+    }
+
+    @GetMapping("/date-range")
+    public List<TransactionResponse> getTransactionDateRange(
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end,
+            @AuthenticationPrincipal CustomUserDetails userDetails){
+        return transactionService.getTransactionDateRange(userDetails.getId(), start, end);
+    }
+
+    @GetMapping("/monthly-summary")
+    public MonthlySummaryResponse getMonthlySummary(
+            @RequestParam int year,
+            @RequestParam int month,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return transactionService.getMonthlySummary(userDetails.getId(), year, month);
+    }
+
+
 
 }
