@@ -1,4 +1,8 @@
 package com.example.trackmint.dto;
 
-public class CategoryResponseSummary {
-}
+import java.math.BigDecimal;
+
+public record CategorySpendingResponse(
+        String category,
+        BigDecimal total
+) {}

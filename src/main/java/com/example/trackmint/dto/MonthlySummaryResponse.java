@@ -1,4 +1,9 @@
 package com.example.trackmint.dto;
 
-public class MonthlySummaryResponse {
-}
+import java.math.BigDecimal;
+
+public record MonthlySummaryResponse (
+        BigDecimal income,
+        BigDecimal expenses,
+        BigDecimal balance
+){}

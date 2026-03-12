@@ -1,8 +1,6 @@
 package com.example.trackmint.dto;
 
 import com.example.trackmint.model.TransactionType;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
 
