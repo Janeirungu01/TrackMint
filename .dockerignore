@@ -1,0 +1,7 @@
+target/*
+!target/trackmint-0.0.1-SNAPSHOT.jar
+*.class
+*.war
+*.iml
+.idea/
+.git/

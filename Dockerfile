@@ -1,4 +1,19 @@
-FROM ubuntu:latest
-LABEL authors="Admin"
+#FROM ubuntu:latest
+#LABEL authors="Admin"
+#
+#ENTRYPOINT ["top", "-b"]
 
-ENTRYPOINT ["top", "-b"]
+# Use OpenJDK 17 base image
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy the jar into the container
+COPY target/trackmint-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose port 8080
+EXPOSE 8080
+
+# Run the jar
+ENTRYPOINT ["java","-jar","app.jar"]
