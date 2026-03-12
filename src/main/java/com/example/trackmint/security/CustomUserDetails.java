@@ -19,7 +19,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     @NotNull
-    public String getUsername() { return email; }
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public boolean isAccountNonExpired() { return true; }
