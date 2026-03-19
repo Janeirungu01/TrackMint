@@ -1,10 +1,10 @@
 package com.example.trackmint.services;
 
+import com.example.trackmint.dto.AuthResponse;
 import com.example.trackmint.dto.LoginRequest;
-import com.example.trackmint.dto.RegisterRequest;
-import com.example.trackmint.model.User;
+import com.example.trackmint.dto.UserRequest;
 
 public interface AuthService {
-    User register(RegisterRequest request);
-    User login(LoginRequest login);
+    AuthResponse register(UserRequest request);
+    AuthResponse login(LoginRequest login);
 }
