@@ -1,5 +1,5 @@
 package com.example.trackmint.controller;
-import com.example.trackmint.model.User;
+import com.example.trackmint.dto.AuthResponse;
 import com.example.trackmint.services.UserService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<AuthResponse> getUsers() {
         return userService.getAllUsers();
     }
 
