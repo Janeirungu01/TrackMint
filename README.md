@@ -43,6 +43,8 @@ exception → custom exceptions and global exception handler
 security → authentication configuration
 
 ## API Endpoints
+
+## Transactions
 | Method | Endpoint | Description |
 |------|------|------|
 POST | /transactions | Create a transaction |
@@ -52,6 +54,7 @@ PUT | /transactions/{id} | Update a transaction |
 DELETE | /transactions/{id} | Delete a transaction |
 GET | /transactions/date-range | Get transactions by date range |
 
+## Analytics
 | Method | Endpoint | Description |
 |------|------|------|
 GET | /transactions/spending-by-category | Spending per category |
@@ -67,6 +70,7 @@ GET | /categories/{id}/transactions | Transactions in category |
 GET | /categories/{id}/total | Total spent in category |
 
 ## Example Request
+
 POST /transactions
 
 {
@@ -90,7 +94,7 @@ POST /transactions
 }
 
 ## Running this Application 
-git clone https://github.com/yourusername/trackmint.git
+git clone https://github.com/Janeirungu01/TrackMint.git
 cd trackmint
 mvn spring-boot:run
 http://localhost:8080
@@ -125,3 +129,4 @@ Jane Irungu
 Backend Developer | Java | Spring Boot
 
 GitHub: https://github.com/janeirungu01
+
