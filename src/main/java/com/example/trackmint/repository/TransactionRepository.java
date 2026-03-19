@@ -1,8 +1,11 @@
 package com.example.trackmint.repository;
 
+import com.example.trackmint.model.Category;
 import com.example.trackmint.model.Transaction;
+import com.example.trackmint.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,6 +32,7 @@ AND YEAR(t.date) = :year
 AND MONTH(t.date) = :month
 """)
     BigDecimal getTotalIncomeForMonth(Long userId, int year, int month);
+
     @Query("""
 SELECT COALESCE(SUM(t.amount),0)
 FROM Transaction t
@@ -47,4 +51,20 @@ GROUP BY MONTH(t.date)
 ORDER BY MONTH(t.date)
 """)
     List<Object[]> getMonthlySpending(Long userId);
+
+    @Query("""
+SELECT COALESCE(SUM(t.amount), 0)
+FROM Transaction t
+WHERE t.category = :category
+AND t.user = :user
+AND t.type = 'EXPENSE'
+AND t.date BETWEEN :start AND :end
+""")
+    BigDecimal sumExpensesByCategoryAndUserAndMonth(
+            @Param("category") Category category,
+            @Param("user") User user,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
+    );
 }
+

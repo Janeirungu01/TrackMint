@@ -2,6 +2,7 @@ package com.example.trackmint.services.impl;
 
 import com.example.trackmint.dto.CategoryRequest;
 import com.example.trackmint.dto.CategoryResponse;
+import com.example.trackmint.exception.CategoryNotFoundException;
 import com.example.trackmint.model.Category;
 import com.example.trackmint.model.User;
 import com.example.trackmint.repository.CategoryRepository;
@@ -21,7 +22,11 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse createCategory (CategoryRequest request, Long userId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new CategoryNotFoundException("User not found"));
+
+        if (categoryRepository.findByNameAndUser(request.getName(), user).isPresent()) {
+            throw new RuntimeException("Category already exists");
+        }
 
         Category category = new Category();
         category.setName(request.getName());
