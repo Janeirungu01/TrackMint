@@ -1,13 +1,13 @@
 package com.example.trackmint.services;
 
-import com.example.trackmint.model.User;
+import com.example.trackmint.dto.AuthResponse;
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<AuthResponse> getAllUsers();
 
-    User getUserById(Long id);
+    AuthResponse getUserById(Long id);
 
     void deleteUser(Long id);
 }

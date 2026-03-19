@@ -1,7 +1,6 @@
 package com.example.trackmint.dto;
 
-public record UserResponse(
-        Long id,
-        String fullName,
-        String email
+public record AuthResponse(
+        String email,
+        String token
 ) {}
