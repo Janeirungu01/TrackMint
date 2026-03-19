@@ -3,7 +3,9 @@
     import com.example.trackmint.dto.MonthlySummaryResponse;
     import com.example.trackmint.dto.TransactionRequest;
     import com.example.trackmint.dto.TransactionResponse;
+    import com.example.trackmint.exception.CategoryNotFoundException;
     import com.example.trackmint.exception.TransactionNotFoundException;
+    import com.example.trackmint.exception.UserNotFoundException;
     import com.example.trackmint.model.Category;
     import com.example.trackmint.model.Transaction;
     import com.example.trackmint.model.User;
@@ -30,10 +32,10 @@
     
             Category category = categoryRepository
                     .findByIdAndUser_Id(request.getCategoryId(), userId)
-                    .orElseThrow(() -> new TransactionNotFoundException("Category not found for this user"));
+                    .orElseThrow(() -> new CategoryNotFoundException("Category not found for this user"));
     
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new UserNotFoundException("User not found"));
     
             Transaction transaction = new Transaction();
             transaction.setAmount(request.getAmount());
