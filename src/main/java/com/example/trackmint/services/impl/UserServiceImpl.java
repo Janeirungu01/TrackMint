@@ -39,10 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private AuthResponse mapToResponse(User user) {
-        String token = jwtUtil.generateToken(user.getEmail());
+        String accessToken = jwtUtil.generateAccessToken(user.getEmail());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
         return new AuthResponse(
                 user.getEmail(),
-                token
+                accessToken,
+                refreshToken
         );
     }
 }
