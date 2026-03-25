@@ -26,6 +26,9 @@ public class User {
 
     private String password;
 
+    @Column(length = 512)
+    private String refreshToken;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Category> categories;
