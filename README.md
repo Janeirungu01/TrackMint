@@ -25,7 +25,7 @@ The application demonstrates a clean layered architecture using Spring Boot, Spr
 - Spring Data JPA
 - JWT-based Authentication
 - Hibernate
-- MySQL / PostgreSQL
+- PostgreSQL
 - Maven
 - Lombok
 - Angular (frontend)
@@ -68,6 +68,14 @@ POST | /categories | Create category |
 GET | /categories | Get all categories |
 GET | /categories/{id}/transactions | Transactions in category |
 GET | /categories/{id}/total | Total spent in category |
+
+
+# Budgets
+| Method | Endpoint                     | Description                    |
+|------|------------------------------|--------------------------------|
+POST | /budgets                     | Create budget for category     |
+GET | /budgets                     | Get all budgets for categories |
+GET | /summary/check?/transactions | Transactions in category       |
 
 ## Example Request
 
