@@ -3,6 +3,7 @@ package com.example.trackmint.services.impl;
 
 import com.example.trackmint.dto.AuthResponse;
 import com.example.trackmint.dto.LoginRequest;
+import com.example.trackmint.dto.RefreshTokenRequest;
 import com.example.trackmint.dto.UserRequest;
 import com.example.trackmint.exception.UserNotFoundException;
 import com.example.trackmint.model.User;
@@ -38,29 +39,67 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
 
-        userRepository.save(user);
-        String token = jwtUtil.generateToken(user.getEmail());
+        User savedUser = userRepository.save(user);
 
-        return new AuthResponse(
-                user.getEmail(),
-                token
-        );
+        return generateAndSaveTokens(savedUser);
+
     }
 
     @Override
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new UserNotFoundException("Invalid email or password"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new UserNotFoundException("Invalid email or password");
         }
-        String token = jwtUtil.generateToken(user.getEmail());
+
+        return generateAndSaveTokens(user);
+
+    }
+
+    @Override
+    public AuthResponse refresh(RefreshTokenRequest request) {
+
+        String refreshToken = request.refreshToken();
+        if (!jwtUtil.isTokenValid(refreshToken)) {
+            throw new UserNotFoundException("Invalid refresh token");
+        }
+
+            String email = jwtUtil.extractEmail(refreshToken);
+
+        User user =  userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (user.getRefreshToken() == null ||
+                !user.getRefreshToken().equals(refreshToken)){
+            throw new UserNotFoundException("Invalid refresh token");
+        }
+        return generateAndSaveTokens(user);
+
+    }
+
+    public void logout(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        user.setRefreshToken(null);
+        userRepository.save(user);
+    }
+
+    private AuthResponse generateAndSaveTokens(User user) {
+        String accessToken = jwtUtil.generateAccessToken(user.getEmail());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
 
         return new AuthResponse(
                 user.getEmail(),
-                token
+                accessToken,
+                refreshToken
         );
+
     }
 }

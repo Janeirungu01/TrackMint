@@ -5,6 +5,7 @@ import com.example.trackmint.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,19 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(
             @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authService.refresh(request));
+    };
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout (Authentication authentication) {
+        String email = authentication.getName();
+        authService.logout(email);
+        return ResponseEntity.ok("logout successful");
 
     }
 }
