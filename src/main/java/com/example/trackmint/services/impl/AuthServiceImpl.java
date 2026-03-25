@@ -6,6 +6,7 @@ import com.example.trackmint.dto.LoginRequest;
 import com.example.trackmint.dto.RefreshTokenRequest;
 import com.example.trackmint.dto.UserRequest;
 import com.example.trackmint.exception.UserNotFoundException;
+import com.example.trackmint.model.Role;
 import com.example.trackmint.model.User;
 import com.example.trackmint.repository.UserRepository;
 import com.example.trackmint.services.AuthService;
@@ -38,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
         user.setFullName(request.fullName());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(Role.USER);
 
         User savedUser = userRepository.save(user);
 

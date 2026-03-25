@@ -9,6 +9,7 @@ import com.example.trackmint.security.CustomUserDetails;
 import com.example.trackmint.services.BudgetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class BudgetController {
         return budgetService.createBudget(request, userId);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public List<BudgetStatusResponse> getBudgets(
             @AuthenticationPrincipal CustomUserDetails userDetails) {

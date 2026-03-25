@@ -3,9 +3,12 @@ import com.example.trackmint.dto.AuthResponse;
 import com.example.trackmint.services.UserService;
 
 import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/users")
 public class UserController {
 

@@ -71,11 +71,12 @@ GET | /categories/{id}/total | Total spent in category |
 
 
 # Budgets
-| Method | Endpoint                     | Description                    |
-|------|------------------------------|--------------------------------|
-POST | /budgets                     | Create budget for category     |
-GET | /budgets                     | Get all budgets for categories |
-GET | /summary/check?/transactions | Transactions in category       |
+| Method | Endpoint                     | Description |
+|------|------------------------------|-----|
+POST | /budgets                     | Create budget for category |
+GET | /budgets                     | Get all budgets for categories | |
+GET | /budgets/summary             | Get all budgets for categories |
+GET | /budgets/check | Transactions in category |
 
 ## Example Request
 
