@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: trackmint
+
+jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: true
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:OWRuPuRF88uD0Ysh+LtKyDs1g74Eb8NoRKa06Emf1Ao=}
+  access:
+    expiration: ${JWT_ACCESS_EXPIRATION:900000}
+  refresh:
+    expiration: ${JWT_REFRESH_EXPIRATION:604800000}
